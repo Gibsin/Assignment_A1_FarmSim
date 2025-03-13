@@ -3,7 +3,7 @@ package students.items;
 public abstract class Item {
 	// unsure what the visibility should be. protected / private 
 	protected int age = 0;
-	private int maturationAge;
+	protected int maturationAge;
 	private int deathAge;
 	private double value;
 	
@@ -23,7 +23,7 @@ public abstract class Item {
 	}
 	
 	public boolean died(){
-		if (this.age > this.deathAge && this.deathAge != 0)// accounts for weeds / soil infinite life span
+		if (this.age > this.deathAge && this.deathAge != 0)// accounts for weeds / s infinite life span
 			return true;
 		else 
 			return false;

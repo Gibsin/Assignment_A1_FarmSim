@@ -19,7 +19,11 @@ public class Apples extends Food{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return ("Apple Age: " + this.age);
+		if (this.age >= this.maturationAge)
+			return "A";
+		
+		else 
+			return "a";
 	}
 
 }

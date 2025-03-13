@@ -19,7 +19,10 @@ public class Grain extends Food{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return null;
+		if (this.age >= this.maturationAge)
+			return "G";
+		
+		else 
+			return "g";
 	}
-	
 }

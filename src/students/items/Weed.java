@@ -12,7 +12,7 @@ public class Weed extends Item{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return null;
+		return "#";
 	}
 
 }
