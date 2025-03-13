@@ -1,6 +1,7 @@
 package students.items;
 
 public class Grain extends Food{
+	// represented as 'g' or 'G'
 	
 	private static int grainCount = 0;
 	public double purchacePrice = 1;// No clue if this is even supposed to be a thing (no direct mention?)

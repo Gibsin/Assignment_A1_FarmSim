@@ -1,6 +1,7 @@
 package students.items;
 
 public class Apples extends Food{
+	// represented as 'a' or 'A'
 	
 	private static int appleCount = 0;
 	public double purchacePrice = 2;
