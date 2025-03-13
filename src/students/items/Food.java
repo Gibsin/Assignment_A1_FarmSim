@@ -1,6 +1,9 @@
 package students.items;
 
-public class Food {
-
+public abstract class Food extends Item{
+	
+	public Food(int maturationAge, int deathAge, double value) {
+		super(maturationAge,deathAge,value);
+	}
 
 }

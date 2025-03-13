@@ -22,7 +22,7 @@ public abstract class Item {
 	}
 	
 	public boolean died(){
-		if (this.age >= this.deathAge)
+		if (this.age > this.deathAge)
 			return true;
 		else 
 			return false;
@@ -37,12 +37,11 @@ public abstract class Item {
 			return 0;
 	}
 	
-	// TO DO: equals 
+	// TODO: equals method 
 	
 	@Override
 	public abstract String toString();
 		
 		
-	
 	
 }
