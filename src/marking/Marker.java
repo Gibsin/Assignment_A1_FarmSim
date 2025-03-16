@@ -33,9 +33,11 @@ public class Marker {
 		// Section TWO
 		// uncomment this section once you get to it
 		
-		/*
+		
 		Field testField = new Field(5, 5);
-		System.out.println(testField.get(3, 3)); //should print "."
+		
+		System.out.println(testField.get(2, 2)); //should print "."
+		/*
 		System.out.println(testField); //should print the field
 		System.out.println(testField.getValue()); //should print 0
 		a = new Apples();

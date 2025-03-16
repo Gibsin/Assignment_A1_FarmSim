@@ -15,5 +15,13 @@ public class Soil extends Item{
 		return ".";
 	}
 
+
+	@Override
+	public Item copy() {
+		// TODO Auto-generated method stub
+		Soil soilCopy = new Soil();
+		return soilCopy;
+	}
+
 }
 

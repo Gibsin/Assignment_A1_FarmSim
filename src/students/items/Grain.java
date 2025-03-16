@@ -12,7 +12,9 @@ public class Grain extends Food{
 		grainCount++;
 	}
 
-	 
+	
+
+
 	public static int getGenerationCount() {
 		return grainCount;
 	}
@@ -24,5 +26,14 @@ public class Grain extends Food{
 		
 		else 
 			return "g";
+	}
+
+
+	@Override
+	public Item copy() {
+
+		Grain grainCopy = new Grain();
+		grainCopy.setAge(this.age);
+		return grainCopy;
 	}
 }

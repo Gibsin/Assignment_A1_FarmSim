@@ -15,4 +15,12 @@ public class Weed extends Item{
 		return "#";
 	}
 
+
+	@Override
+	public Item copy() {
+		// TODO Auto-generated method stub
+		Weed weedCopy = new Weed();
+		return weedCopy;
+	}
+
 }

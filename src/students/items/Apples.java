@@ -26,4 +26,12 @@ public class Apples extends Food{
 			return "a";
 	}
 
+	@Override
+	public Item copy() {
+		// TODO Auto-generated method stub
+		Apples applesCopy = new Apples();
+		applesCopy.setAge(this.age);
+		return applesCopy;
+	}
+
 }

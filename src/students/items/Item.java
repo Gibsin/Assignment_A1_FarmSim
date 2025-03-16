@@ -42,6 +42,10 @@ public abstract class Item {
 	
 	@Override
 	public abstract String toString();
+	
+	public abstract Item copy();//provides easy copy for other items
+	
+	
 		
 		
 	
