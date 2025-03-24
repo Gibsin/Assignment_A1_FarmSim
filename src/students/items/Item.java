@@ -32,6 +32,7 @@ public abstract class Item {
 	//TODO: CHECK THIS
 	public int getValue() {
 		if (this.age >= this.maturationAge) {
+			int returnValue = this.value;
 			return returnValue;
 
 		}

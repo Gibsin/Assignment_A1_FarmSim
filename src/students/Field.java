@@ -1,5 +1,6 @@
 package students;
 
+import students.items.Food;
 import students.items.Item;
 import students.items.Soil;
 import students.items.UntilledSoil;
@@ -19,7 +20,7 @@ public class Field {
 				fieldArray[row][column] = new Soil();
 				
 			}
-			
+		
 		}
 		// dev check
 		//System.out.println("Created Field");
@@ -66,12 +67,20 @@ public class Field {
 	}
 	
 	public void till(int row, int column) {
-		fieldArray[row][column] =  new Soil();
+		if (row > fieldArray.length || column > fieldArray[0].length) {
+			System.out.println("Input outside of field bounds");
+		}
+		
+		else
+			fieldArray[row][column] =  new Soil();
 	}
 	
-	public void plant(int row, int column, Item newItem) {
-		// add verification
-		fieldArray[row][column] =  newItem;
+	public void plant(int row, int column, Food newItem) {
+		if (row > fieldArray.length || column > fieldArray[0].length) {
+			System.out.println("Input outside of field bounds");
+		}
+		else
+			fieldArray[row][column] = newItem;
 	}
 	
 	public double getValue() {
@@ -92,7 +101,7 @@ public class Field {
 	
 	//TODO: implement this
 	public String getSummary() {
-		return null;
+		return "PLACEHOLDER";
 	}
 	
 	@Override
