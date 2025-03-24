@@ -5,9 +5,9 @@ public abstract class Item {
 	protected int age = 0;
 	protected int maturationAge;
 	private int deathAge;
-	private double value;
+	private int value;
 	
-	public Item(int maturationAge, int deathAge, double value) {
+	public Item(int maturationAge, int deathAge, int value) {
 		this.maturationAge = maturationAge; 
 		this.deathAge = deathAge;
 		this.value = value;
@@ -29,16 +29,38 @@ public abstract class Item {
 			return false;
 	}
 	
-	public double getValue() {
+	//TODO: CHECK THIS
+	public int getValue() {
 		if (this.age >= this.maturationAge) {
-			return this.value;
+			return returnValue;
 
 		}
 		else 
 			return 0;
 	}
 	
+	public int getDeathAge() {
+		return this.deathAge;
+	}
+	
 	// TODO: equals method 
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Item) {
+			if (other.getClass() == this.getClass()){
+				if (((Item) other).age == this.age 
+						&& ((Item) other).getValue() == this.value
+						&& ((Item) other).getDeathAge() == this.deathAge
+						&& ((Item) other).maturationAge == this.maturationAge) {
+					return true;
+				}
+				
+			}
+			
+		}
+		
+		return false;
+	}
 	
 	@Override
 	public abstract String toString();

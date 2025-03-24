@@ -4,7 +4,7 @@ public class Apples extends Food{
 	// represented as 'a' or 'A'
 	
 	private static int appleCount = 0;
-	public double purchacePrice = 2;
+	public int purchacePrice = 2;
 	
 	public Apples() {
 		super(3, 5, 3);

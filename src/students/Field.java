@@ -22,9 +22,9 @@ public class Field {
 			
 		}
 		// dev check
-		System.out.println("Created Field");
-		System.out.println(fieldArray.length);
-		System.out.println(fieldArray[0].length);
+		//System.out.println("Created Field");
+		//System.out.println(fieldArray.length);
+		//System.out.println(fieldArray[0].length);
 	}
 	
 	public Item get(int row, int column) {
@@ -70,13 +70,27 @@ public class Field {
 	}
 	
 	public void plant(int row, int column, Item newItem) {
+		// add verification
 		fieldArray[row][column] =  newItem;
 	}
 	
 	public double getValue() {
-		return 0;
+		double sumValue = 0;
+		int row, column;
+		int height = fieldArray.length;
+		int width = fieldArray[0].length;
+		for (row = 0; row < height; row++) {
+			
+			for (column = 0; column < width; column++) {
+				sumValue += fieldArray[row][column].getValue();
+			}
+			
+		}
+		
+		return sumValue;
 	}
 	
+	//TODO: implement this
 	public String getSummary() {
 		return null;
 	}
