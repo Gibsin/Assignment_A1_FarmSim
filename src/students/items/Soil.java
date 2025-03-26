@@ -7,6 +7,11 @@ public class Soil extends Item{
 		super(0, 0, 0);
 		
 	}
+	
+	public Soil(Soil soil) {
+		super(0, 0, 0);		
+		this.setAge(soil.age);
+	}
 		
 		
 	@Override
@@ -15,13 +20,14 @@ public class Soil extends Item{
 		return ".";
 	}
 
-
+	
 	@Override
-	public Item copy() {
+	public Soil copy() {
+		return new Soil(this);
 		// TODO Auto-generated method stub
-		Soil soilCopy = new Soil();
-		return soilCopy;
 	}
+
+	
 
 }
 

@@ -32,7 +32,14 @@ public class Marker {
 
 		// Section TWO
 		// uncomment this section once you get to it
+		Apples b = a.copy();
+		Apples c = a;
+		System.out.println(b.died());
+		System.out.println(b == a);
+		System.out.println(a == c);
+
 		
+		/*
 		
 		Field testField = new Field(5, 5);
 		System.out.println(testField);
@@ -57,7 +64,9 @@ public class Marker {
 		//remember, your farm should work on varies size fields (assuming all fields are less than 10x10)
 		Farm f = new Farm(10, 5, 10);
 		f.run();
+		*/
 		
 	}
 
 }
+

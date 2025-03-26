@@ -3,7 +3,7 @@ package students.items;
 public abstract class Item {
 	// unsure what the visibility should be. protected / private 
 	protected int age = 0;
-	protected int maturationAge;
+	private int maturationAge;
 	private int deathAge;
 	private int value;
 	
@@ -14,6 +14,7 @@ public abstract class Item {
 		
 	}
 	
+	
 	public void tick() {
 		this.age++;
 	}
@@ -22,14 +23,7 @@ public abstract class Item {
 		this.age = newAge;
 	}
 	
-	public boolean died(){
-		if (this.age > this.deathAge && this.deathAge != 0)// accounts for weeds / s infinite life span
-			return true;
-		else 
-			return false;
-	}
 	
-	//TODO: CHECK THIS
 	public int getValue() {
 		if (this.age >= this.maturationAge) {
 			int returnValue = this.value;
@@ -44,11 +38,24 @@ public abstract class Item {
 		return this.deathAge;
 	}
 	
-	// TODO: equals method 
+	public int getMaturationAge() {
+		return this.maturationAge;
+	}
+	
+	
+	public boolean died(){
+		if (this.age > this.deathAge && this.deathAge != 0)// accounts for weeds / soil infinite life span
+			return true;
+		else 
+			return false;
+	}
+	
+
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof Item) {
 			if (other.getClass() == this.getClass()){
+				// Fat if statement.
 				if (((Item) other).age == this.age 
 						&& ((Item) other).getValue() == this.value
 						&& ((Item) other).getDeathAge() == this.deathAge
@@ -66,6 +73,8 @@ public abstract class Item {
 	@Override
 	public abstract String toString();
 	
+	
+	/**Creates a copy of an Item Object**/
 	public abstract Item copy();//provides easy copy for other items
 	
 	

@@ -12,6 +12,11 @@ public class Apples extends Food{
 		
 	}
 	
+	public Apples(Apples apple) {
+		super(3, 5, 3);
+		this.setAge(apple.age);
+	}
+	
 	public static int getGenerationCount() {
 		return appleCount;
 	}
@@ -19,7 +24,7 @@ public class Apples extends Food{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		if (this.age >= this.maturationAge)
+		if (this.age >= this.getMaturationAge())
 			return "A";
 		
 		else 
@@ -27,11 +32,8 @@ public class Apples extends Food{
 	}
 
 	@Override
-	public Item copy() {
-		// TODO Auto-generated method stub
-		Apples applesCopy = new Apples();
-		applesCopy.setAge(this.age);
-		return applesCopy;
+	public Apples copy() {
+		return new Apples(this);
 	}
 
 }

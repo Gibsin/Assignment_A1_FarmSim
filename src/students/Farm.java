@@ -81,21 +81,6 @@ public class Farm {
 		
 		
 		
-		
-		
-		/*
-		if (userAction.charAt(0) == 't') {
-			try {
-				int f = Integer.parseInt(String.valueOf(userAction.charAt(2)));
-				System.out.println(f);
-			}
-			catch (NumberFormatException e){
-				System.out.println("Invaild command");
-			}
-			
-		}
-		*/
-		
 	}
 	
 }

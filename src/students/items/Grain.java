@@ -11,6 +11,11 @@ public class Grain extends Food{
 		super(2,6,2); // probably need better way of doing this :/
 		grainCount++;
 	}
+	
+	public Grain(Grain grain) {
+		super(2,6,2); 
+		this.setAge(grain.age);
+	}
 
 	
 
@@ -21,7 +26,7 @@ public class Grain extends Food{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		if (this.age >= this.maturationAge)
+		if (this.age >= this.getMaturationAge())
 			return "G";
 		
 		else 
@@ -31,9 +36,6 @@ public class Grain extends Food{
 
 	@Override
 	public Item copy() {
-
-		Grain grainCopy = new Grain();
-		grainCopy.setAge(this.age);
-		return grainCopy;
+		return new Grain(this);		
 	}
 }

@@ -7,6 +7,11 @@ public class UntilledSoil extends Item{
 		super(0, 0, -1);
 		
 	}
+	
+	public UntilledSoil(UntilledSoil unSoil) {
+		super(0, 0, 0);		
+		this.setAge(unSoil.age);
+	}
 
 	@Override
 	public String toString() {
@@ -17,8 +22,7 @@ public class UntilledSoil extends Item{
 	@Override
 	public Item copy() {
 		// TODO Auto-generated method stub
-		UntilledSoil unSoilCopy = new  UntilledSoil();
-		return unSoilCopy;
+		return new UntilledSoil(this);
 	}
 
 }
