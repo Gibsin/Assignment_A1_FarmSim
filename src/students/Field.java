@@ -22,12 +22,9 @@ public class Field {
 			}
 		
 		}
-		// dev check
-		//System.out.println("Created Field");
-		//System.out.println(fieldArray.length);
-		//System.out.println(fieldArray[0].length);
 	}
 	
+	/**Returns Item at specified location (row column)**/
 	public Item get(int row, int column) {
 		if (row > fieldArray.length || column > fieldArray[0].length) {
 			System.out.println("Input outside of field bounds");
@@ -41,6 +38,7 @@ public class Field {
 					
 	}
 	
+	
 	public void tick() {
 		int row, column;
 		int height = fieldArray.length;
@@ -53,7 +51,7 @@ public class Field {
 					fieldArray[row][column] = new UntilledSoil();
 				}
 				if (fieldArray[row][column] instanceof Soil) {
-					int roll = (int)(Math.random() * 101);
+					int roll = (int)(Math.random() * 101); //Creates whole number from 1 - 100
 					if (roll <= 20) 
 						fieldArray[row][column] = new Weed();
 					
@@ -65,6 +63,7 @@ public class Field {
 		}
 		
 	}
+	
 	
 	public void till(int row, int column) {
 		if (row > fieldArray.length || column > fieldArray[0].length) {
@@ -83,6 +82,7 @@ public class Field {
 			fieldArray[row][column] = newItem;
 	}
 	
+	/**Returns the total value all items in the field **/
 	public double getValue() {
 		double sumValue = 0;
 		int row, column;

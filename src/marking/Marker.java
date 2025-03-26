@@ -32,18 +32,21 @@ public class Marker {
 
 		// Section TWO
 		// uncomment this section once you get to it
+		
+		
+		/*
+		// extra test stuff
 		Apples b = a.copy();
 		Apples c = a;
 		System.out.println(b.died());
 		System.out.println(b == a);
 		System.out.println(a == c);
-
+		*/
 		
-		/*
+		
 		
 		Field testField = new Field(5, 5);
 		System.out.println(testField);
-		
 		System.out.println(testField.get(2, 2)); //should print "."\
 		
 		System.out.println(testField); //should print the field
@@ -58,13 +61,14 @@ public class Marker {
 		System.out.println(a.equals(testField.get(0, 0))); //should print false
 		System.out.println(testField.get(0, 0).equals(new Soil())); //should print true
 		
+		System.out.println(testField.get(0, 0));
+		
 
 		// Section THREE
 		// uncomment this section once you get to it
 		//remember, your farm should work on varies size fields (assuming all fields are less than 10x10)
 		Farm f = new Farm(10, 5, 10);
 		f.run();
-		*/
 		
 	}
 

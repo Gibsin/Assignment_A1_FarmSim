@@ -16,23 +16,69 @@ public class Farm {
 		
 	}
 	
+	private int[] coordinates(String command) {
+		int[] location = new int[2];
+		
+		String[] commandData = command.split(" ");
+		// TODO: Add Exception for this. (maybe)
+		if (commandData.length > 3)
+			System.out.println("Error: Too many command arguments.");
+		
+		else {
+			
+			try {
+				location[0] = Integer.parseInt(commandData[1]);
+				location[1] = Integer.parseInt(commandData[2]); 
+				
+			}
+			catch(ArrayIndexOutOfBoundsException e) {
+				System.out.println("Error: Missing command arguments");
+			}
+			catch(NumberFormatException e) {
+				System.out.println("Error: Command arguments must be a number.");
+			}
+					
+		}
+		
+		return location;
+	}
+	
+	
+	
 	public void run()
 	{	
+		int row, column;
 		Scanner userInput = new Scanner(System.in);
 		
 		System.out.println(field);
 		System.out.println("\nBank Balance: $" + this.balance);
 		System.out.println("Enter your next action:");
 		
+		// Testing 
+		String testCommand = "t p 4";
+		int[] x = coordinates(testCommand);
+		System.out.println(x[0]);
+		System.out.println(x[1]);
+		
+		//int errorMaker = Integer.parseInt("d");
+		
+		// TODO: Add action list.
+
 		String userAction = userInput.nextLine();
 		
-		int row, column;
 		
-		//will add else if later 
+		
+		// TODO: Add while loop.
+		// Strings are kind weird, will change this to something else.
+		while (userAction.equals("q") == false){
+			
+		}
 		
 		if (userAction.equals("q")) {
-			//Placeholder
+			// TODO: Add real quit function
 			System.out.println("quit game");
+			// Scanner is no longer needed.
+			userInput.close();
 		}
 		
 		if (userAction.equals("s")) {
@@ -40,14 +86,15 @@ public class Farm {
 		}
 		
 		if (userAction.equals("w")) {
-			//do something
+			//TODO: Add functionally to wait
 		}
 		
-		
-		// these three require coordinates so should be grouped
+		// TODO: resolve issue of field locations(index) being -1 of the represented values.
+		// These three commands require coordinates. Grouped so coordinates can be parsed in one place. 
 		if (userAction.length() > 0) {
 			if (userAction.charAt(0) == 't' || userAction.charAt(0) == 'p' || userAction.charAt(0) == 'h') {
 				
+				// Separates the coordinates from the command. 
 				String[] actionSplit = userAction.split(" ");
 								
 				try {
@@ -72,6 +119,7 @@ public class Farm {
 					}
 					
 				}
+				// TODO: Add better Exception handling.
 				catch (Exception e) {
 					System.out.println("placeholder error");
 				}

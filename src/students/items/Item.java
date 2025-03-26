@@ -1,8 +1,7 @@
 package students.items;
 
 public abstract class Item {
-	// unsure what the visibility should be. protected / private 
-	protected int age = 0;
+	private int age = 0;
 	private int maturationAge;
 	private int deathAge;
 	private int value;
@@ -17,6 +16,10 @@ public abstract class Item {
 	
 	public void tick() {
 		this.age++;
+	}
+	
+	public int getAge() {
+		return this.age;
 	}
 	
 	public void setAge(int newAge) {

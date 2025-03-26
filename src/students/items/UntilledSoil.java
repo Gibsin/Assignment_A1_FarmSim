@@ -10,7 +10,7 @@ public class UntilledSoil extends Item{
 	
 	public UntilledSoil(UntilledSoil unSoil) {
 		super(0, 0, 0);		
-		this.setAge(unSoil.age);
+		this.setAge(unSoil.getAge());
 	}
 
 	@Override

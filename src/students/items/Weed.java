@@ -7,6 +7,11 @@ public class Weed extends Item{
 		super(0, 0, -1); // how to make their death infinite?
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Weed(Weed weed) {
+		super(0,0,-1);
+		this.setAge(weed.getAge());
+	}
 
 	
 	@Override

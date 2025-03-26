@@ -10,7 +10,7 @@ public class Soil extends Item{
 	
 	public Soil(Soil soil) {
 		super(0, 0, 0);		
-		this.setAge(soil.age);
+		this.setAge(soil.getAge());
 	}
 		
 		

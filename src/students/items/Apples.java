@@ -14,7 +14,7 @@ public class Apples extends Food{
 	
 	public Apples(Apples apple) {
 		super(3, 5, 3);
-		this.setAge(apple.age);
+		this.setAge(apple.getAge());
 	}
 	
 	public static int getGenerationCount() {
@@ -24,7 +24,7 @@ public class Apples extends Food{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		if (this.age >= this.getMaturationAge())
+		if (this.getAge() >= this.getMaturationAge())
 			return "A";
 		
 		else 
