@@ -1,6 +1,9 @@
 package students;
 
+
+import students.items.Apples;
 import students.items.Food;
+import students.items.Grain;
 import students.items.Item;
 import students.items.Soil;
 import students.items.UntilledSoil;
@@ -76,7 +79,6 @@ public class Field {
 	
 	public void plant(int row, int column, Food newItem) {
 		if (row > fieldArray.length || column > fieldArray[0].length) {
-			System.out.println("Input outside of field bounds");
 		}
 		else
 			fieldArray[row][column] = newItem;
@@ -101,7 +103,40 @@ public class Field {
 	
 	//TODO: implement this
 	public String getSummary() {
-		return "PLACEHOLDER";
+		int row, column;
+		int height = fieldArray.length;
+		int width = fieldArray[0].length;
+		int appleCount = 0;
+		int grainCount = 0;
+		int weedCount = 0;
+		int soilCount = 0;
+		int untilledCount = 0;
+		
+		int index;
+		// Uses the name of the class to determine and count instances of each class. 
+		String[] types = {"Apples", "Grain", "Soil", "UntilledSoil", "Weed"}; 
+		int[] count = {0, 0, 0, 0, 0};		
+		
+		for (row = 0; row < height; row++) {			
+			for (column = 0; column < width; column++) {
+				for (index = 0; index < types.length; index++) {
+					if (fieldArray[row][column].getClass().getSimpleName().equals(types[index])) {
+						count[index] += 1;
+						break;
+					}
+				}
+				
+			}
+					
+		}
+
+		String returnSummary = "Apples:" + count[0] +"\nGrain: " + count[1] + 
+				"\nSoil: " + count[2] + "\nUntilled: " + count[3] + "\nWeed: " + count[4]
+						+ "\nFor a total of: $" + this.getValue()
+						+ "\nTotal apples created: " + Apples.getGenerationCount()
+						+ "\nTotal grain created: " + Grain.getGenerationCount();
+		
+		return returnSummary;
 	}
 	
 	@Override
