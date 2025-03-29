@@ -4,7 +4,7 @@ public class Grain extends Food{
 	// represented as 'g' or 'G'
 	
 	private static int grainCount = 0;
-	public int purchacePrice = 1;// No clue if this is even supposed to be a thing (no direct mention?)
+	public static int purchacePrice = 1;// No clue if this is even supposed to be a thing (no direct mention?)
 
 	public Grain() {
 		// Mature: 2, Death: 6, Value: 2
@@ -37,5 +37,9 @@ public class Grain extends Food{
 	@Override
 	public Item copy() {
 		return new Grain(this);		
+	}
+	
+	public static int getPurchacePrice() {
+		return purchacePrice;
 	}
 }

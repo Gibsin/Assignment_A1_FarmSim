@@ -4,7 +4,7 @@ public class Apples extends Food{
 	// represented as 'a' or 'A'
 	
 	private static int appleCount = 0;
-	public int purchacePrice = 2;
+	private static int purchacePrice = 2;
 	
 	public Apples() {
 		super(3, 5, 3);
@@ -19,6 +19,10 @@ public class Apples extends Food{
 	
 	public static int getGenerationCount() {
 		return appleCount;
+	}
+	
+	public static int getPurchacePrice() {
+		return purchacePrice;
 	}
 
 	@Override
@@ -35,5 +39,6 @@ public class Apples extends Food{
 	public Apples copy() {
 		return new Apples(this);
 	}
+
 
 }
