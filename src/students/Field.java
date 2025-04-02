@@ -11,6 +11,8 @@ import students.items.Weed;
 
 public class Field {
 	private Item[][] fieldArray;
+	static final int DEFAULT_WEED_SPAWN = 20;
+	private int weedSpawnRate = DEFAULT_WEED_SPAWN;
 	
 	public Field(int height, int width)
 	{
@@ -55,7 +57,8 @@ public class Field {
 				}
 				if (fieldArray[row][column] instanceof Soil) {
 					int roll = (int)(Math.random() * 101); //Creates whole number from 1 - 100
-					if (roll <= 20) 
+					// weedSpawnRate allows the chance of weeds to spawn to be changed during run time.
+					if (roll <= weedSpawnRate) 
 						fieldArray[row][column] = new Weed();
 					
 					
@@ -101,16 +104,21 @@ public class Field {
 		return sumValue;
 	}
 	
-	//TODO: implement this
+	public int getWeedSpawnRate() {
+		return this.weedSpawnRate;
+	}
+	
+	/**Set the spawn chance for weeds.**/
+	public void setWeedSpawnRate(int newSpawnRate) {
+		if (newSpawnRate > 0) {
+			this.weedSpawnRate = newSpawnRate;
+		}
+	}
+	
 	public String getSummary() {
 		int row, column;
 		int height = fieldArray.length;
 		int width = fieldArray[0].length;
-		int appleCount = 0;
-		int grainCount = 0;
-		int weedCount = 0;
-		int soilCount = 0;
-		int untilledCount = 0;
 		
 		int index;
 		// Uses the name of the class to determine and count instances of each class. 

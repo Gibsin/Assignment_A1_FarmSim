@@ -11,6 +11,8 @@ import students.items.Soil;
 public class Farm {
 	private int balance;
 	private Field field;
+	private int expPoints = 0;
+	final int DEFAULT_ACTIONS_PER_TURN = 1;
 	
 	public Farm(int fieldWidth, int fieldHeight, int startingFunds)
 	{
@@ -31,8 +33,9 @@ public class Farm {
 		else {
 			
 			try {
-				location[0] = Integer.parseInt(commandData[1]);
-				location[1] = Integer.parseInt(commandData[2]); 
+				// Column then row. Feels more natural.
+				location[0] = Integer.parseInt(commandData[2]);
+				location[1] = Integer.parseInt(commandData[1]); 
 				
 			}
 			catch(ArrayIndexOutOfBoundsException e) {
@@ -50,22 +53,25 @@ public class Farm {
 	/** Prints out farm commands, balance and field.**/
 	private void printInstuctions() {
 		// This was placed in it's own function to make any changes to the command list easier.
-		System.out.println(field);
+		System.out.println("\n" + field);
+		System.out.println("Exp Points: " + this.expPoints);
 		System.out.println("Bank Balance: $" + this.balance);
 		System.out.println("\nEnter your next action:");
-		System.out.println("t x y: till \nh x y: harvest \np x y: plant \ns: field summary \nw: wait \nq: quit");	
+		System.out.println("t x y: till \nh x y: harvest "
+				+ "\np x y: plant \nx: exp shop"
+				+ "\ns: field summary \nw: wait \nq: quit");	
 	}
 	
 	/**Starts the process for the player to buy new crops**/
 	private Food buyCrops() {
-		Scanner userInput = new Scanner(System.in);
+		Scanner purchaseInput = new Scanner(System.in);
 		boolean validSelection = false;
 		Food returnItem = null;
 		
 		while (validSelection == false) {
 			System.out.println("Enter: \n-'a' to buy an apple for $" + Apples.getPurchacePrice()
-			+ "\n- 'g' to buy grain for $" + Grain.getPurchacePrice());
-			String userAction = userInput.nextLine();
+			+ "\n-'g' to buy grain for $" + Grain.getPurchacePrice());
+			String userAction = purchaseInput.nextLine();
 			
 			if (userAction.equals("a")) {
 				validSelection = true;
@@ -93,17 +99,20 @@ public class Farm {
 				System.out.println(userAction + " is not a valid selection.");
 			}
 		}
-		return returnItem;
-		
-		
+		return returnItem;	
+	}
+	
+	private void expShop() {
+		//exp shop that lets the player upgrade their farm and skills.
+		// skills: sell value of crops, number of moves per turn, spawn rate of weeds, types of crops you can buy.
 	}
 	
 	
-	
-	
+		
 	/**Starts the game(will add better description)**/
 	public void run()
 	{	
+		field.getWeedSpawnRate();
 		int row, column;
 		int[] commandCoordinates;
 		Scanner userInput = new Scanner(System.in);
@@ -115,12 +124,12 @@ public class Farm {
 		
 		String userAction = userInput.nextLine();
 			
-
 		// Strings are kind weird, will change this to something else.
 		while (userAction.equals("q") == false){
 			turnPassed = false;
 			
 			// These Command have extra text so need to isolate the first char.
+			// not happy with the structure.
 			if (userAction.length() > 1) {
 				turnPassed = true;
 				commandCoordinates = coordinates(userAction);
@@ -131,37 +140,66 @@ public class Farm {
 				try {
 			
 					if (userAction.charAt(0) == 't') {
-						field.till(row, column);	
+						field.till(row, column);
+						int gainedXp = 1; 
+						this.expPoints += gainedXp;
+						System.out.println("Gained " + gainedXp + " EXP");
 						}
 					
 					else if (userAction.charAt(0) == 'p') {
 						if (field.get(row, column) instanceof Soil) {
 							Food newCrop = buyCrops();
 							if (newCrop != null) {
+								int gainedXp = 2; 
+								this.expPoints += gainedXp;
+								System.out.println("Succesfully planted new crop!");
 								field.plant(row, column, newCrop);
+								System.out.println("Gained " + gainedXp + " EXP");
+								
 							}
 							
 						}
 						else
-							System.out.println("You may only plant on soil.");
-						
-						
+							System.out.println("You may only plant on soil. Passing turn.");
+										
 					}
-			
+					
+					
+					//Harvest
 					else if (userAction.charAt(0) == 'h') {
+						int gainedXp;
+						
 						Item harvestTarget = this.field.get(row, column);
+						
 						if (harvestTarget instanceof Food) {
-						this.balance += harvestTarget.getValue();
-						if (harvestTarget.getAge() < harvestTarget.getMaturationAge()) {
-							System.out.println("Crop was harvested prematurely!");
-						}
-						System.out.println("Crop was harvested for $" + harvestTarget.getValue());
-						this.field.till(row, column); //Assumed that the area is re-tilled? 
+												
+							
+							if (harvestTarget.getAge() >= harvestTarget.getMaturationAge()) {	
+								gainedXp = 3;
+							}
+							else {
+								System.out.println("Crop was harvested prematurely!");
+								gainedXp = 0;
+								}
+							
+							System.out.println("Crop was harvested for $" + harvestTarget.getValue());
+							System.out.println("Gained " + gainedXp + " EXP");
+							this.field.till(row, column); //Assumed that the area is re-tilled? 
+							
+							this.balance += harvestTarget.getValue();
+							this.expPoints += gainedXp;
+							
 						}
 						else {
-							System.out.println("This is not a harvestable item!");
+							System.out.println("This is not a harvestable item! Passing turn.");
 						}
 					}
+					//Harvest
+					
+					
+					
+					else
+						System.out.println("Invalid Command. You lose a turn.");	
 				}
 				catch(ArrayIndexOutOfBoundsException e) {
 					System.out.println("Error: Provided coordinates out of bounds of field.");
@@ -175,6 +213,7 @@ public class Farm {
 				System.out.println("quit game");
 				// Scanner is no longer needed.
 				userInput.close();
+
 				break;
 			}
 		
@@ -185,6 +224,10 @@ public class Farm {
 			else if (userAction.equals("w")) {
 				turnPassed = true;				
 				System.out.println("Doing nothing, waiting till next turn...");
+			}
+			
+			else if (userAction.equals("x")) {
+				expShop();
 			}
 			
 			else {
