@@ -17,6 +17,7 @@ public class Apples extends Food{
 		this.setAge(apple.getAge());
 	}
 	
+	
 	public static int getGenerationCount() {
 		return appleCount;
 	}

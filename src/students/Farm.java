@@ -1,5 +1,6 @@
 package students;
 
+
 import java.util.Scanner;
 
 import students.items.Apples;
@@ -7,17 +8,29 @@ import students.items.Food;
 import students.items.Grain;
 import students.items.Item;
 import students.items.Soil;
+import java.util.HashMap;
 
 public class Farm {
 	private int balance;
 	private Field field;
-	private int expPoints = 0;
-	final int DEFAULT_ACTIONS_PER_TURN = 1;
+	private int xpPoints;
+	final int DEFAULT_ACTIONS_PER_TURN = 1;// not sure if i need this
+	private int actionsPerTurn;
+	private int actionsTaken;
+	private SkillData[] skillList;
+	
 	
 	public Farm(int fieldWidth, int fieldHeight, int startingFunds)
 	{
 		this.balance = startingFunds;
 		this.field = new Field(fieldWidth, fieldHeight);
+		this.xpPoints = 0;
+		this.actionsPerTurn = 1;
+		// Skill list 
+		this.skillList = new SkillData[3];
+		this.skillList[0] = new SkillData(1, "Weed Spawns", "Decrease the spawn rate of weeds by 3% per level.", 5, 2);
+		this.skillList[1] = new SkillData(5, "Actions Per Turn", "Increase the number of actions you can take per turn by 1 per level.", 10, 5);
+		this.skillList[2] = new SkillData(5, "Apple Sell Bonus", "Increase the sell price of apples by $2 per level.", 6, 3);
 		
 	}
 	
@@ -54,8 +67,9 @@ public class Farm {
 	private void printInstuctions() {
 		// This was placed in it's own function to make any changes to the command list easier.
 		System.out.println("\n" + field);
-		System.out.println("Exp Points: " + this.expPoints);
+		System.out.println("Exp Points: " + this.xpPoints);
 		System.out.println("Bank Balance: $" + this.balance);
+		System.out.println("Actions Taken: " + this.actionsTaken + "/" + this.actionsPerTurn);
 		System.out.println("\nEnter your next action:");
 		System.out.println("t x y: till \nh x y: harvest "
 				+ "\np x y: plant \nx: exp shop"
@@ -72,6 +86,7 @@ public class Farm {
 			System.out.println("Enter: \n-'a' to buy an apple for $" + Apples.getPurchacePrice()
 			+ "\n-'g' to buy grain for $" + Grain.getPurchacePrice());
 			String userAction = purchaseInput.nextLine();
+				
 			
 			if (userAction.equals("a")) {
 				validSelection = true;
@@ -102,9 +117,95 @@ public class Farm {
 		return returnItem;	
 	}
 	
-	private void expShop() {
-		//exp shop that lets the player upgrade their farm and skills.
-		// skills: sell value of crops, number of moves per turn, spawn rate of weeds, types of crops you can buy.
+	
+	/**Gives the player the specified amount of xp and shows them the amount gained.**/
+	//added to clean up code
+	private void earnXp(int xpAmount) {
+		int gainedXp = xpAmount;
+		this.xpPoints += gainedXp;
+		System.out.println("Gained " + gainedXp + " XP");
+	}
+	
+	//exp shop that lets the player upgrade their farm and skills.
+	private void expShop() {	
+		
+		System.out.println("Skills");
+		boolean leaveShop = false;
+		
+		
+		while (leaveShop == false) {
+			
+			for (int index = 0; index < this.skillList.length; index++) {
+				String skillEntry = (index + 1) + " - " + this.skillList[index].getName();
+				
+				if (this.skillList[index].isMaxLevel()) 
+					skillEntry += "| Level: MAX";
+				else {
+					skillEntry += (" | Price: $" + this.skillList[index].getPrice() + " | Level: ");
+					skillEntry += (this.skillList[index].getLevel());
+					}
+	
+				skillEntry += ("\n    " + this.skillList[index].getSkillDesc() + "\n" );
+				
+				System.out.println(skillEntry);
+			}
+			
+			System.out.println("b - Go back to farm.");
+			
+			
+			Scanner purchaseInput = new Scanner(System.in);
+			String userAction = purchaseInput.nextLine();
+			
+			if (userAction.equals("b")) {
+				leaveShop = true;
+				continue;
+				
+			}
+			
+			try {
+				int selection = Integer.parseInt(userAction) - 1;
+				if (this.skillList[selection].isMaxLevel() == false && this.xpPoints >= skillList[selection].getPrice()) {
+
+					this.skillList[selection].levelSkill();
+					
+					if (selection == 0) {
+						int currentRate = field.getWeedSpawnRate();
+						this.field.setWeedSpawnRate(currentRate - 3);
+						this.xpPoints -= skillList[selection].getPrice();
+					}
+					
+					else if (selection == 1) {
+						this.actionsPerTurn += 1;	
+						this.xpPoints -= skillList[selection].getPrice();	
+					}
+					
+					else if (selection == 2) {
+						System.out.println("Apples");		
+						this.xpPoints -= skillList[selection].getPrice();
+					}
+					
+				}
+				else {
+					if (this.skillList[selection].isMaxLevel()) 
+						System.out.println("This Skill is already max level!");
+					
+					else
+						System.out.println("You can't afford this skill");
+				}
+					
+			}
+		
+			
+			catch(NumberFormatException e) {
+				System.out.println("Please type the number of the skill you wish to buy.");
+			}
+			catch(ArrayIndexOutOfBoundsException e) {
+				System.out.println("Invalid selection - number does not appear on skill list");
+			}
+		
+		}
+		
+	
 	}
 	
 	
@@ -112,13 +213,12 @@ public class Farm {
 	/**Starts the game(will add better description)**/
 	public void run()
 	{	
-		field.getWeedSpawnRate();
 		int row, column;
 		int[] commandCoordinates;
+		actionsTaken = 0;
 		Scanner userInput = new Scanner(System.in);
 		// Actions like field summary should not pass the turn.
 		// This Bool makes it so that some actions wont pass the turn.
-		boolean turnPassed;
 		
 		printInstuctions();
 		
@@ -126,36 +226,31 @@ public class Farm {
 			
 		// Strings are kind weird, will change this to something else.
 		while (userAction.equals("q") == false){
-			turnPassed = false;
-			
+
 			// These Command have extra text so need to isolate the first char.
 			// not happy with the structure.
 			if (userAction.length() > 1) {
-				turnPassed = true;
 				commandCoordinates = coordinates(userAction);
 				// resolves issue of field coordinates shown being +1 their array index.
-				row = commandCoordinates[0] - 1;
-				column = commandCoordinates[1] - 1;
+				row = commandCoordinates[1] - 1;
+				column = commandCoordinates[0] - 1;
 				
 				try {
 			
 					if (userAction.charAt(0) == 't') {
 						field.till(row, column);
-						int gainedXp = 1; 
-						this.expPoints += gainedXp;
-						System.out.println("Gained " + gainedXp + " EXP");
+						earnXp(1);
+						actionsTaken += 1;
 						}
 					
 					else if (userAction.charAt(0) == 'p') {
 						if (field.get(row, column) instanceof Soil) {
 							Food newCrop = buyCrops();
 							if (newCrop != null) {
-								int gainedXp = 2; 
-								this.expPoints += gainedXp;
 								System.out.println("Succesfully planted new crop!");
 								field.plant(row, column, newCrop);
-								System.out.println("Gained " + gainedXp + " EXP");
-								
+								earnXp(2);	
+								actionsTaken += 1;
 							}
 							
 						}
@@ -183,11 +278,11 @@ public class Farm {
 								}
 							
 							System.out.println("Crop was harvested for $" + harvestTarget.getValue());
-							System.out.println("Gained " + gainedXp + " EXP");
-							this.field.till(row, column); //Assumed that the area is re-tilled? 
-							
+							earnXp(gainedXp);
+							this.field.till(row, column); //Assumed that the area is re-tilled? 	
 							this.balance += harvestTarget.getValue();
-							this.expPoints += gainedXp;
+							actionsTaken += 1;
+
 							
 						}
 						else {
@@ -209,7 +304,6 @@ public class Farm {
 		
 		
 			else if (userAction.equals("q")) {
-				// TODO: Add real quit function
 				System.out.println("quit game");
 				// Scanner is no longer needed.
 				userInput.close();
@@ -222,22 +316,25 @@ public class Farm {
 			}
 			
 			else if (userAction.equals("w")) {
-				turnPassed = true;				
-				System.out.println("Doing nothing, waiting till next turn...");
+				actionsTaken = this.actionsPerTurn;
+				System.out.println("Doing nothing, waiting till next turn.");
 			}
 			
 			else if (userAction.equals("x")) {
 				expShop();
 			}
 			
-			else {
-				turnPassed = true;	
-				System.out.println("Invalid Command. You lose a turn.");
+			else {	
+				actionsTaken += 1;
+				System.out.println("Invalid Command. You lose an action.");
 			}
 			
 			
-			if (turnPassed == true)
+			if (actionsTaken >= this.actionsPerTurn) {
+				System.out.println("Turn ended. Passing time....");
 				this.field.tick();
+				actionsTaken = 0;
+			}
 			
 			printInstuctions();
 			

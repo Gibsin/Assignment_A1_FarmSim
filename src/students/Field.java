@@ -38,7 +38,7 @@ public class Field {
 		
 		else {
 							
-			return (fieldArray[row][column]);
+			return (fieldArray[row][column].copy());
 		}
 					
 	}
