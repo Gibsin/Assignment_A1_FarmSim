@@ -23,8 +23,54 @@ public class AchievementTracker {
 	}
 	
 	/**checks the player stats and awards achievements and xp points**/	
-	public void checkAchievements() {
+	public int checkAchievements() {
+		int xpReward = 0;
+		if (foodHarvested.getHasBeenAchieved() == false) {
+			foodHarvested.checkAchievementCompletion();
+			if (foodHarvested.getHasBeenAchieved()) {
+				System.out.println("Congratulations you have achieved 20 food harvested!");
+				xpReward += foodHarvested.getXpReward();
+			}
+						
+		}
 		
+		if (applesHarvested.getHasBeenAchieved() == false) {
+			applesHarvested.checkAchievementCompletion();
+			if (applesHarvested.getHasBeenAchieved()) {
+				System.out.println("Congratulations you have achieved 10 apples harvested!");
+				xpReward += applesHarvested.getXpReward();
+			}
+						
+		}
+		
+		if (grainHarvested.getHasBeenAchieved() == false) {
+			grainHarvested.checkAchievementCompletion();
+			if (grainHarvested.getHasBeenAchieved()) {
+				System.out.println("Congratulations you have achieved 10 grain harvested!");
+				xpReward += grainHarvested.getXpReward();
+			}
+						
+		}
+		
+		if (soilTilled.getHasBeenAchieved() == false) {
+			soilTilled.checkAchievementCompletion();
+			if (soilTilled.getHasBeenAchieved()) {
+				System.out.println("Congratulations you have achieved 30 soil tilled!");
+				xpReward += soilTilled.getXpReward();
+			}
+						
+		}
+		
+		if (weedsRemoved.getHasBeenAchieved() == false) {
+			weedsRemoved.checkAchievementCompletion();
+			if (weedsRemoved.getHasBeenAchieved()) {
+				System.out.println("Congratulations you have achieved 20 Weeds removed!");
+				xpReward += weedsRemoved.getXpReward();
+			}
+						
+		}
+		
+		return xpReward;
 		
 	}
 	

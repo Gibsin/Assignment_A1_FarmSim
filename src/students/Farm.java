@@ -349,6 +349,7 @@ public class Farm {
 				this.field.tick();
 				actionsTaken = 0;
 			}
+			achievementTracker.checkAchievements();
 			
 			printInstuctions();
 			
