@@ -78,7 +78,8 @@ public abstract class Item {
 	
 	
 	/**Creates a copy of an Item Object**/
-	public abstract Item copy();//provides easy copy for other items
+	//provides easy copy for all items, makes creating a copy generic.
+	public abstract Item copy();
 	
 	
 		

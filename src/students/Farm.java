@@ -18,19 +18,25 @@ public class Farm {
 	private int actionsPerTurn;
 	private int actionsTaken;
 	private SkillData[] skillList;
+	HashMap<String, Integer> sellBonus;
 	
 	
 	public Farm(int fieldWidth, int fieldHeight, int startingFunds)
 	{
 		this.balance = startingFunds;
 		this.field = new Field(fieldWidth, fieldHeight);
-		this.xpPoints = 0;
+		this.xpPoints = 10;
 		this.actionsPerTurn = 1;
+		sellBonus = new HashMap<String, Integer>();
+		sellBonus.put("Apples", 0);
+		sellBonus.put("Grain", 0);
+		
 		// Skill list 
-		this.skillList = new SkillData[3];
-		this.skillList[0] = new SkillData(1, "Weed Spawns", "Decrease the spawn rate of weeds by 3% per level.", 5, 2);
-		this.skillList[1] = new SkillData(5, "Actions Per Turn", "Increase the number of actions you can take per turn by 1 per level.", 10, 5);
-		this.skillList[2] = new SkillData(5, "Apple Sell Bonus", "Increase the sell price of apples by $2 per level.", 6, 3);
+		this.skillList = new SkillData[5];
+		this.skillList[0] = new SkillData(6, "Weed Spawns", "Decrease the spawn rate of weeds by 3% per level.", 5, 2);
+		this.skillList[1] = new SkillData(10, "Actions Per Turn", "Increase the number of actions you can take per turn by 1 per level.", 10, 5);
+		this.skillList[2] = new SkillData(10, "Apple Sell Bonus", "Increase the sell price of apples by $2 per level.", 6, 3);
+		this.skillList[4] = new SkillData(10, "Grain Sell Bonus", "Increase the sell price of Grain by $2 per level.", 6, 3);
 		
 	}
 	
@@ -76,6 +82,7 @@ public class Farm {
 				+ "\ns: field summary \nw: wait \nq: quit");	
 	}
 	
+		
 	/**Starts the process for the player to buy new crops**/
 	private Food buyCrops() {
 		Scanner purchaseInput = new Scanner(System.in);
@@ -180,7 +187,12 @@ public class Farm {
 					}
 					
 					else if (selection == 2) {
-						System.out.println("Apples");		
+						sellBonus.put("Apples", sellBonus.get("Apples") + 2);
+						this.xpPoints -= skillList[selection].getPrice();
+					}
+					
+					else if (selection == 3) {
+						sellBonus.put("Grain", sellBonus.get("Grain") + 2);
 						this.xpPoints -= skillList[selection].getPrice();
 					}
 					
@@ -261,32 +273,31 @@ public class Farm {
 					
 					
 					//Harvest
-					else if (userAction.charAt(0) == 'h') {
-						int gainedXp;
-						
+					else if (userAction.charAt(0) == 'h') {						
 						Item harvestTarget = this.field.get(row, column);
 						
 						if (harvestTarget instanceof Food) {
 												
 							
-							if (harvestTarget.getAge() >= harvestTarget.getMaturationAge()) {	
-								gainedXp = 3;
+							if (harvestTarget.getAge() >= harvestTarget.getMaturationAge()) {		
+								String cropType = harvestTarget.getClass().getSimpleName();
+								int sellValue = harvestTarget.getValue() + this.sellBonus.get(cropType);	
+								System.out.println("Crop was harvested for $" + sellValue);
+								this.field.till(row, column); //Assumed that the area is re-tilled? 	
+								this.balance += sellValue;
+								earnXp(3);
 							}
 							else {
-								System.out.println("Crop was harvested prematurely!");
-								gainedXp = 0;
+								System.out.println("Crop was harvested prematurely and has no value!");
 								}
 							
-							System.out.println("Crop was harvested for $" + harvestTarget.getValue());
-							earnXp(gainedXp);
-							this.field.till(row, column); //Assumed that the area is re-tilled? 	
-							this.balance += harvestTarget.getValue();
+							
 							actionsTaken += 1;
 
 							
 						}
 						else {
-							System.out.println("This is not a harvestable item! Passing turn.");
+							System.out.println("This is not a harvestable item!");
 						}
 					}
 					//Harvest

@@ -37,7 +37,7 @@ public class Field {
 		}
 		
 		else {
-							
+			// uses generic copy function avoiding any if statements. 			
 			return (fieldArray[row][column].copy());
 		}
 					

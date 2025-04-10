@@ -16,7 +16,7 @@ public class SkillData {
 		this.price = price;
 		this.priceIncrease = priceIncrease;	
 	}
-	
+	/**Returns whether the skill is max level (boolean)**/
 	public boolean isMaxLevel() {
 		if (this.level >= this.maxLevel) {
 			return true;
@@ -25,6 +25,7 @@ public class SkillData {
 			return false;
 	}
 	
+	/**Increases the level by 1 and increases the cost **/
 	public void levelSkill() {
 		this.level += 1;
 		this.price += this.priceIncrease;
