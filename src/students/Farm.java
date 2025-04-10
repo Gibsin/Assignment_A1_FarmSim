@@ -18,18 +18,20 @@ public class Farm {
 	private int actionsPerTurn;
 	private int actionsTaken;
 	private SkillData[] skillList;
-	HashMap<String, Integer> sellBonus;
+	private HashMap<String, Integer> sellBonus;
+	private AchievementTracker achievementTracker;
 	
 	
 	public Farm(int fieldWidth, int fieldHeight, int startingFunds)
 	{
 		this.balance = startingFunds;
 		this.field = new Field(fieldWidth, fieldHeight);
-		this.xpPoints = 10;
-		this.actionsPerTurn = 1;
-		sellBonus = new HashMap<String, Integer>();
-		sellBonus.put("Apples", 0);
-		sellBonus.put("Grain", 0);
+		this.xpPoints = 0;
+		this.achievementTracker = new AchievementTracker();
+		this.actionsPerTurn = DEFAULT_ACTIONS_PER_TURN;
+		this.sellBonus = new HashMap<String, Integer>();
+		this.sellBonus.put("Apples", 0);
+		this.sellBonus.put("Grain", 0);
 		
 		// Skill list 
 		this.skillList = new SkillData[5];
@@ -45,7 +47,6 @@ public class Farm {
 		int[] location = new int[2];
 		
 		String[] commandData = command.split(" ");
-		// TODO: Add Exception for this. (maybe)
 		if (commandData.length > 3)
 			System.out.println("Error: Too many command arguments.");
 		
@@ -187,12 +188,12 @@ public class Farm {
 					}
 					
 					else if (selection == 2) {
-						sellBonus.put("Apples", sellBonus.get("Apples") + 2);
+						this.sellBonus.put("Apples", this.sellBonus.get("Apples") + 2);
 						this.xpPoints -= skillList[selection].getPrice();
 					}
 					
 					else if (selection == 3) {
-						sellBonus.put("Grain", sellBonus.get("Grain") + 2);
+						this.sellBonus.put("Grain", this.sellBonus.get("Grain") + 2);
 						this.xpPoints -= skillList[selection].getPrice();
 					}
 					
@@ -251,6 +252,8 @@ public class Farm {
 			
 					if (userAction.charAt(0) == 't') {
 						field.till(row, column);
+						Item tillTarget = field.get(row, column);
+						this.achievementTracker.updateTillStats(tillTarget);
 						earnXp(1);
 						actionsTaken += 1;
 						}
